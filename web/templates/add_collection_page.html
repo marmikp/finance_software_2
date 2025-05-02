@@ -1,0 +1,451 @@
+<style>
+
+.selected {
+    color: red;
+    background-color: white;
+}
+.display-table {
+  font-weight: 900;
+}
+
+div.scroll {
+                margin:4px, 4px;
+                padding:4px;
+                width: auto;
+                height: auto;
+                overflow-x: hidden;
+                overflow-y: auto;
+                text-align:justify;
+            }
+
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font: 16px Arial;
+}
+
+/*the container must be positioned relative:*/
+.autocomplete {
+  position: relative;
+  display: inline-block;
+}
+
+input {
+  border: 1px solid transparent;
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-size: 16px;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 4px;
+  height:100%;
+}
+
+input[type=text] {
+  background-color: #f1f1f1;
+  width: 100%;
+}
+
+input[type=submit] {
+  background-color: DodgerBlue;
+  color: #fff;
+  cursor: pointer;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+  background-color: #e9e9e9;
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}
+
+
+
+
+
+
+
+</style>
+
+
+<style>
+
+.selected {
+    color: red;
+    background-color: white;
+}
+.display-table {
+  font-weight: 900;
+}
+
+
+
+
+
+
+</style>
+<script>
+$(document).ready(function(){
+
+
+    $(".update").click(function(){
+    if (confirm("Press OK to add collection")){
+        var paid_date = document.getElementById("date_input").value;
+        var paid_amount = document.getElementById("amount").value;
+        var user_id = document.getElementById("user_id_text").value;
+        var loan_id = document.getElementById("denar").value.split(' - ')[0];
+        var noi = document.getElementById("emi_no").value;
+        var base_amount = document.getElementById("base_amount").value;
+        $.post('/api/hafta/add_collection', {'user_id': user_id, 'loan_id': loan_id,
+        'no_of_installment': noi, 'paid_date': paid_date, 'paid_amount': paid_amount, 'base_amount': base_amount},
+
+                function(returnedData){
+                    if (returnedData['code'] == 200){
+                     $(".topmid-left b").html("Data updated successfully");
+                     }
+                     else{
+                        $(".topmid-left b").html("Some error occured, Make sure your data are okay.");
+                     }
+            }).fail(function(){
+                  console.log("error");
+            });
+
+    }
+  });
+
+  $('#lenar').change(function() {
+        var lenar = document.getElementById('lenar').value;
+          $.post('/api/account/get_account_user_details_credit_debit', {'lenar': lenar},
+            function(returnedData){
+                $('#id_1_total').val(parseFloat(returnedData));
+                var amount = document.getElementById('amount').value;
+                $('#id_1_update_to').val(parseFloat(returnedData) + parseFloat(amount));
+
+        }).fail(function(){
+              console.log("error");
+        });
+  });
+
+    $('#denar').change(function() {
+        var denar = document.getElementById('denar').value;
+        $('.update').prop('disabled', false);
+          $.post('/api/hafta/add_collection_user_info', {'lenar': denar},
+            function(returnedData){
+                $('.data_table').html(returnedData['table']);
+                $('#amount').val(returnedData['value']);
+                $('#emi_no').val(returnedData['emi_no']);
+                $('#id_1_total').val(returnedData['cash_amount']);
+                $('#user_id_text').val(returnedData['user_id']);
+                $('#base_amount').val(returnedData['value']);
+                $('#denar').val(returnedData['name']);
+                $('#id_1_update_to').val(parseFloat(returnedData['cash_amount']) + parseFloat(returnedData['value']));
+<!--                $('#id_2_total').val(parseFloat(returnedData));-->
+<!--                var amount = document.getElementById('amount').value;-->
+<!--                if (denar == 'CASH' & ((parseFloat(returnedData) - parseFloat(amount)) < 0)){-->
+<!--                    alert('Values should be less');-->
+<!--                    $('.update').prop('disabled', true);-->
+<!--                }-->
+<!--                $('#id_2_update_to').val(parseFloat(returnedData) - parseFloat(amount));-->
+
+        }).fail(function(){
+              console.log("error");
+        });
+  });
+
+  $('#amount').change(function() {
+        var amount = document.getElementById('amount').value;
+        var cash_amount = document.getElementById('id_1_total').value;
+        $('#id_1_update_to').val(parseFloat(cash_amount) + parseFloat(amount));
+
+  });
+
+});
+
+
+
+
+</script>
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<div style="padding: 50px;padding-top:100px;" class="scroll">
+
+    <div class="row">
+        <span class="topmid-left" style="color: red;"><b></b> </span>
+    </div>
+
+    <div class="row" style="padding-left: 50px;">
+        <h3>Day Collection</h3>
+    </div>
+    <div class="row">
+        <input type="hidden" id="emi_no">
+        <input type="hidden" id="user_id_text">
+        <input type="hidden" id="base_amount">
+        <div class="col-sm-9">
+            <div class="row" style="padding: 10px;">
+                <div class="col-sm-6 automplete-2 form-inline control-group">
+                    <label for="date_input" style="font-size: 20px;" class="col-sm-3 control-label">Date: </label>
+                    <div class="col-sm-9 form-control">
+                        <input type='date' id="date_input" name="date_input" value="{{date_today}}">
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding: 10px;">
+                <div class="col-sm-8 automplete-2 form-inline control-group">
+                    <label for="lenar" style="font-size: 20px;" class="col-sm-3 control-label">Lenar: </label>
+                    <div class="col-sm-12 form-control">
+                        <input id="lenar" type="text" name="lenar"
+                               placeholder="Customer" value="CASH" disabled>
+                        <!--                <select class="form-select" id="lenar">-->
+                        <!--                    {% for d in data %}-->
+                        <!--                    <option value="{{d}}">{{d}}</option>-->
+                        <!--                    {% endfor %}-->
+                        <!--                </select>-->
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="col-sm-6">
+                        <input type="text" id="id_1_total" class="id_1_total" placeholder="Current" disabled>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" id="id_1_update_to" class="id_1_update_to" placeholder="Update Bal."
+                               disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding: 10px;">
+                <div class="col-sm-8 autocomplete form-inline control-group">
+                    <label for="denar" style="font-size: 20px;" class="col-sm-3 control-label">Loan ID: </label>
+                    <div class="col-sm-12 form-control">
+                                        <input id="denar" type="text" name="denar" placeholder="Customer">
+<!--                        <select class="form-select" id="denar">-->
+<!--                            {% for d in data %}-->
+<!--                            <option value="{{d}}">{{d}}</option>-->
+<!--                            {% endfor %}-->
+<!--                        </select>-->
+                    </div>
+                </div>
+
+            </div>
+            <br>
+            <div class="row" style="padding: 10px;">
+                <div class="col-sm-6 autocomplete form-inline control-group">
+                    <label for="amount" style="font-size: 20px;" class="col-sm-4 control-label">Amount</label>
+                    <div class="col-sm-8 form-control">
+                        <input id="amount" type="text" name="amount" placeholder="Amount">
+                    </div>
+                </div>
+
+            </div>
+            <div class="row" style="padding: 10px;">
+                <div class="col-sm-6 autocomplete form-inline control-group">
+                    <label for="remark" style="font-size: 20px;" class="col-sm-4 control-label">Remark: </label>
+                    <div class="col-sm-8 form-control">
+                        <input id="remark" type="text" name="remark" placeholder="Remark">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <table class="data_table"></table>
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+        <input type="button" class="update btn" style="background-color: #008fe4;" value="Update">
+    </div>
+    <br>
+    <br>
+
+    <div class="row" style="padding: 50px;">
+
+        <div class="col-sm-4">
+
+
+        </div>
+
+
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    $('#example').DataTable();
+
+   $(".display-table tr").click(function(){
+   $(this).addClass('selected').siblings().removeClass('selected');
+   var value=$(this).find('td:first').html();
+
+   });
+
+} );
+
+
+
+
+
+</script>
+
+
+<script>
+function autocomplete(inp, arr) {
+  /*the autocomplete function takes two arguments,
+  the text field element and an array of possible autocompleted values:*/
+  var currentFocus;
+  /*execute a function when someone writes in the text field:*/
+  inp.addEventListener("input", function(e) {
+      var a, b, i, val = this.value;
+      /*close any already open lists of autocompleted values*/
+      closeAllLists();
+      if (!val) { return false;}
+      currentFocus = -1;
+      /*create a DIV element that will contain the items (values):*/
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      /*append the DIV element as a child of the autocomplete container:*/
+      this.parentNode.appendChild(a);
+      /*for each item in the array...*/
+      for (i = 0; i < arr.length; i++) {
+        /*check if the item starts with the same letters as the text field value:*/
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          /*create a DIV element for each matching element:*/
+          b = document.createElement("DIV");
+          /*make the matching letters bold:*/
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          /*insert a input field that will hold the current array item's value:*/
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          /*execute a function when someone clicks on the item value (DIV element):*/
+          b.addEventListener("click", function(e) {
+              /*insert the value for the autocomplete text field:*/
+              inp.value = this.getElementsByTagName("input")[0].value;
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+  });
+  /*execute a function presses a key on the keyboard:*/
+  inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) x[currentFocus].click();
+        }
+      }
+  });
+  function addActive(x) {
+    /*a function to classify an item as "active":*/
+    if (!x) return false;
+    /*start by removing the "active" class on all items:*/
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    /*add class "autocomplete-active":*/
+    x[currentFocus].classList.add("autocomplete-active");
+  }
+  function removeActive(x) {
+    /*a function to remove the "active" class from all autocomplete items:*/
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+    }
+  }
+  function closeAllLists(elmnt) {
+    /*close all autocomplete lists in the document,
+    except the one passed as an argument:*/
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) {
+        x[i].parentNode.removeChild(x[i]);
+      }
+    }
+  }
+  /*execute a function when someone clicks in the document:*/
+  document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+  });
+}
+
+/*An array containing all the country names in the world:*/
+var countries = {{data|safe}};
+
+/*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+autocomplete(document.getElementById("lenar"), countries);
+autocomplete(document.getElementById("denar"), countries);
+
+
+
+
+
+
+</script>
+
+
+<link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+      rel="stylesheet">
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<!-- Javascript -->
+<script>
+         $(function() {
+            var availableTutorials = [
+               "ActionScript",
+               "Bootstrap",
+               "C",
+               "C++",
+            ];
+            $( "#automplete-2" ).autocomplete({
+               source: availableTutorials,
+               autoFocus:true
+            });
+         });
+
+
+
+</script>

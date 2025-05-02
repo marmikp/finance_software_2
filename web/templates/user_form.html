@@ -1,0 +1,191 @@
+<style>
+
+.selected {
+    color: red;
+    background-color: white;
+}
+.display-table {
+  font-weight: 500;
+  font-size: 17px;
+  font-family: "Verdana";
+}
+
+.box{
+    border-radius: 25px;
+  box-sizing: border-box;
+  border: 3px solid transparent;
+  background-clip:padding-box;
+}
+
+
+</style>
+<script>
+$(document).ready(function(){
+    var data = {
+          key1: "value1",
+          key2: "value2"
+        };
+    $(".new_customer").click(function(){
+          $.post('/api/test', {'url': 'http://127.0.0.1:5000/api/hafta/new_hafta_entry_dialog', 'data': data},
+            function(returnedData){
+                 var w = window.open('about:blank');
+                    w.document.open();
+                    w.document.write(returnedData);
+                    w.document.close();
+        }).fail(function(){
+              console.log("error");
+        });
+  });
+
+  $(".new").click(function(){
+    $.post('/api/test', {'url': 'http://127.0.0.1:5000/api/hafta/extend_hafta_dialog', 'user_id': $(this).attr('user_id')},
+            function(returnedData){
+                var w = window.open('about:blank');
+                w.document.open();
+                w.document.write(returnedData);
+                w.document.close();
+
+        }).fail(function(){
+              console.log("error");
+        });
+  });
+
+  $(".edit").click(function(){
+    $.post('/api/test', {'url': 'http://127.0.0.1:5000/api/hafta/customer_edit_dialog', 'user_id': $(this).attr('user_id')},
+            function(returnedData){
+                var w = window.open('about:blank');
+                w.document.open();
+                w.document.write(returnedData);
+                w.document.close();
+
+        }).fail(function(){
+              console.log("error");
+        });
+  });
+
+  $(".add_collection").click(function(){
+    $.post('/api/test', {'url':'http://127.0.0.1:5000/api/hafta/add_collection_dialog', 'user_id': $(this).attr('data'), 'loan_id': $(this).attr('loan_id')},
+            function(returnedData){
+            var w = window.open('about:blank');
+            w.document.open();
+            w.document.write(returnedData);
+            w.document.close();
+                 console.log(returnedData);
+        }).fail(function(){
+              console.log("error");
+        });
+  });
+  $(".close_loan").click(function(){
+    $.post('/api/test', {'url': 'http://127.0.0.1:5000/api/hafta/close_loan_dialog', 'user_id': $(this).attr('data')},
+            function(returnedData){var w = window.open('about:blank');
+            w.document.open();
+            w.document.write(returnedData);
+            w.document.close();
+                 console.log(returnedData);
+        }).fail(function(){
+              console.log("error");
+        });
+  });
+
+
+  $(".add_collection_loan_id").click(function(){
+        var loan_id = document.getElementById('add_collection_text').value;
+          $.post('/api/test', {'url': 'http://127.0.0.1:5000/api/hafta/add_collection_dialog', 'loan_id': loan_id},
+            function(returnedData){
+                 var w = window.open('about:blank');
+                    w.document.open();
+                    w.document.write(returnedData);
+                    w.document.close();
+        }).fail(function(){
+              console.log("error");
+        });
+  });
+
+});
+</script>
+<!--<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>-->
+<script src="{{ url_for('static', filename='assets/js/a076d05399.js')}}"></script>
+<div style="padding: 50px;padding-top:100px; background-color: #FFFFFF;">
+
+     <div class="row inline">
+        <div class="col-sm-2">
+
+        </div>
+         <div class="col-sm-5" align="center">
+             </div>
+         <div class="col-sm-2">
+        </div>
+          <div class="col-sm-3">
+            <a class="new_customer btn" style="background-color: #008fe4;" title="ADD CUSTOMER" data-toggle="tooltip"><i class="fa fa-user-plus" aria-hidden="true">New Loan</i></a>
+
+        </div>
+    </div>
+
+<table id="example" class="table table-bordered display-table"  style="width:100%; padding-top: 50px;">
+        <thead>
+            <tr style="background-color:black; color:white;">
+                <th style="text-align: center;">Id</th>
+                <th style="text-align: center;">Name</th>
+                <th style="text-align: center;">Phone</th>
+                <th style="text-align: center;">Loans</th>
+                <th style="text-align: center;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for d in data %}
+            <tr>
+                <td>{{d.loans}}</td>
+                <td>{{d.user_name}}</td>
+                <td>{{d.user_phone}}</td>
+                <td>{{d.num_loan_hafta}}</td>
+                <td>
+                    <div class="row" style="padding: 10px;">
+                        <div style="text-align: center;" class="col-md-3 box bg-primary"><a style="color: white;" class="edit add" title="Edit" data-toggle="tooltip"  user_id="{{d.id}}">Edit</a></div>
+                        <div style="text-align: center;" class="col-md-5 box bg-primary"><a style="color: white;" class="new add" title="Add Hafta" data-toggle="tooltip"  user_id="{{d.id}}">Add Hafta</a></div>
+                        <div style="text-align: center; background-color: red;" class="col-md-4 box " ><a style="color: white;" class="close_loan" title="Close Loan" data-toggle="tooltip" data="{{d.id}}">Close</a></div>
+                    </div>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+<!--        <tfoot>-->
+<!--            <tr style="background-color: black; color: white;">-->
+<!--                <th style="text-align: center;"><b>Id</b></th>-->
+<!--                <th style="text-align: center;"><b>Name</b></th>-->
+<!--                <th style="text-align: center;"><b>Phone</b></th>-->
+<!--                <th style="text-align: center;"><b>Type</b></th>-->
+<!--                <th style="text-align: center;"><b>Loans</b></th>-->
+<!--                <th style="text-align: center;"><b>A/C</b></th>-->
+<!--                <th style="text-align: center;"><b>Actions</b></th>-->
+<!--            </tr>-->
+<!--        </tfoot>-->
+    </table>
+
+    </div>
+<script>
+<!--$(document).ready(function() {-->
+<!--    $('#example').DataTable();-->
+
+<!--   $(".display-table tr").click(function(){-->
+<!--   $(this).addClass('selected').siblings().removeClass('selected');-->
+<!--   var value=$(this).find('td:first').html();-->
+
+<!--   });-->
+
+<!--} );-->
+
+$(document).ready(function() {
+    $('#example').DataTable( {
+        "scrollY": 300,
+        "scrollX": true
+    } );
+    $(".display-table tr").click(function(){
+   $(this).addClass('selected').siblings().removeClass('selected');
+   var value=$(this).find('td:first').html();
+   });
+} );
+
+</script>
+
+

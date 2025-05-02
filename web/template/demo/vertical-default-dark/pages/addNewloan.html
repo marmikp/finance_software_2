@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Day Collection</title>
+    <script src="{{ url_for('static', filename='assets/js/jquery-3.5.1.js')}}"></script>
+    <link href="{{ url_for('static', filename='assets/css/jquery-ui.css')}}" rel="stylesheet"/>
+
+    <!-- plugins:css -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='template/vendors/mdi/css/materialdesignicons.min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='template/vendors/css/vendor.bundle.base.css')}}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='template/vendors/select2/select2.min.css')}}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='template/vendors/select2-bootstrap-theme/select2-bootstrap.min.css')}}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='template/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css')}}">
+    <!-- End plugin css for this page -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='template/css/fd-icons.css')}}">
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='template/css/vertical-layout-dark/style.css')}}">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='template/images/favicon.png')}}"/>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='template/vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='template/vendors/mdi/css/materialdesignicons.min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='template/vendors/css/vendor.bundle.base.css')}}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='template/vendors/select2/select2.min.css')}}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='template/vendors/select2-bootstrap-theme/select2-bootstrap.min.css')}}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='template/vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
+    <!-- End plugin css for this page -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='template/css/fd-icons.css')}}">
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='template/css/vertical-layout-dark/style.css')}}">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='template/images/favicon.png')}}"/>
+    <script src="{{ url_for('static', filename='assets/js/a076d05399.js')}}"></script>
+
+    <style>
+    .dataTables_scrollBody{
+        max-height: 400px;
+    }
+</style>
+</head>
+<style>
+.btn:focus {
+  background: #0066ff;
+}
+.dataTables_filter, .dataTables_info { display: none; }
+</style>
+<body>
+<div class="container-scroller">
+
+    <div class="main-panel" style="width: 100%">
+        <div class="content-wrapper" style="padding: 0px;">
+
+
+            <div class="row">
+
+                <div class="col-md-5 grid-margin stretch-card">
+                    <div class="card card-box">
+                        <div class="card-body">
+                            <form class="forms-sample custom-form ">
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <label for="loan_id" class=" col-sm-3  col-form-label">Loan No.</label>
+                                    <div class="col-sm-3">
+                                        <input type="hidden" class="form-control" name="id" value="{{data.max_id}}"
+                                               id="id"/>
+                                        <input type="text" class="form-control" id="loan_id" name="loan_id"
+                                               placeholder=""
+                                               value="{{data.max_loan_id}}" disabled>
+
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="Name"
+                                               value="{{data.user_name if 'user_name' in data.keys() else ''}}">
+
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <label for="address" class=" col-sm-3  col-form-label">Alias</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="alias" name="alias"
+                                               value="{{data.user_alias if 'user_alias' in data.keys() else ''}}"
+                                               placeholder="Alias">
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <label for="address" class=" col-sm-3  col-form-label">Address</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="address" name="address"
+                                               value="{{data.user_address if 'user_address' in data.keys() else ''}}"
+                                               placeholder="Address">
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <label for="city" class=" col-sm-3 col-form-label">City</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="city" name="city" placeholder="City"
+                                               value="{{data.user_city if 'user_city' in data.keys() else ''}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <label for="phone" class=" col-sm-3 col-form-label">Phone-1</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" style="width: 110%" id="phone"
+                                               placeholder="Phone-1"
+                                               value="{{data.user_phone if 'user_phone' in data.keys() else ''}}">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" style="width: 110%" id="phone_2"
+                                               placeholder="Phone-2"
+                                               value="{{data.user_phone_2 if 'user_phone_2' in data.keys() else ''}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <label for="guarantor_1_name" class=" col-sm-3 col-form-label">Sakshi 1</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="guarantor_1_name"
+                                               name="guarantor_1_name" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <label for="guarantor_1_phone" class="col-sm-3 col-form-label">Phone</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="guarantor_1_phone"
+                                               name="guarantor_1_phone" placeholder=""  value="0">
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <label for="guarantor_1_address" class=" col-sm-3 col-form-label">Address</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="guarantor_1_address"
+                                               name="guarantor_1_address" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <label for="guarantor_2_name" class=" col-sm-3 col-form-label">Sakshi 2</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="guarantor_2_name"
+                                               name="guarantor_2_name" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <label for="guarantor_2_phone" class="col-sm-3 col-form-label">Phone</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="guarantor_2_phone"
+                                               name="guarantor_2_phone" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <label for="guarantor_2_address" class=" col-sm-3 col-form-label">Address</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="guarantor_2_address"
+                                               name="guarantor_2_address" placeholder="">
+                                    </div>
+                                </div>
+
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 grid-margin stretch-card">
+                    <div class="card card-box">
+                        <div class="card-body">
+                            <!-- <h4 class="card-title">Horizontal Form</h4> -->
+                            <!-- <p class="card-description"> -->
+                            <!-- Horizontal form layout -->
+                            <!-- </p> -->
+                            <form class="forms-sample custom-form ">
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <label for="loan_type" class=" col-sm-3 col-form-label">Type</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="loan_type" name="loan_type">
+                                            <option style="text-align: center;" value="hafta">Hafta</option>
+                                            <option style="text-align: center;" value="flat">Flat</option>
+                                        </select>
+
+
+                                    </div>
+                                    <!--                                        <div class="col-sm-4">-->
+                                    <!--                                            <select class="form-control">-->
+                                    <!--                                                <option>Flat</option>-->
+                                    <!--                                                <option>Flat</option>-->
+                                    <!--                                            </select>-->
+
+
+                                    <!--                                        </div>-->
+                                </div>
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <label for="base_amount" class=" col-sm-3 col-form-label">Amount</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control base_amount" id="base_amount"
+                                               name="base_amount" placeholder="" onkeyup="validate()">
+                                        <input class="form-control total_amount" type="hidden" id="total_amount"
+                                               placeholder="BaseAmount *" name="base_amount"
+                                               value="{{data.total_amount}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <label for="interest" class="col-sm-3 col-form-label">Intrest</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="interest" name="interest"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <label for="noi" class=" col-sm-3 col-form-label">Loan EMI</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="noi" name="noi" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <label for="startdate" class=" col-sm-3 col-form-label">Date</label>
+                                    <div class="col-sm-9">
+                                        <input type="date" id="startdate" name="startdate" class="form-control"
+                                               value="{{data.today}}">
+
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <label for="remark" class=" col-sm-3 col-form-label">Remark</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="remark" name="remark" class="form-control" value="">
+                                        <input type="hidden" id="period" name="period" class="form-control"
+                                               value="Monthly">
+
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <label for="paid_amount" class=" col-sm-3 col-form-label">1st Int. Amt</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" id="paid_amount" name="paid_amount" class="form-control"
+                                               value="">
+
+                                    </div>
+                                </div>
+                                <!--                                    <div class="form-group row">-->
+                                <!--                                        <label for="remark" class="col-sm-3 col-form-label">End</label>-->
+                                <!--                                        <div class="col-sm-7">-->
+                                <!--                                            <select id="" class="form-control">-->
+                                <!--                                                <option>06/05/2021</option>-->
+                                <!--                                                <option>06/05/2021</option>-->
+                                <!--                                                <option>06/05/2021</option>-->
+                                <!--                                            </select>-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                                    <div class="form-group row">-->
+                                <!--                                        <label for="remark" class=" col-sm-3 col-form-label">Day</label>-->
+                                <!--                                        <div class="col-sm-7">-->
+                                <!--                                            <input type="text" class="form-control" id="address" placeholder="">-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <div class="form-group row" style="margin-bottom: 0px;">
+                                    <button type="button"
+                                            class="btn btn-success btn-rounded btn-fw right-align-button count">Count
+                                    </button>
+                                    <div class="col-sm-7" style="margin-bottom: 0px;">
+                                        <button type="button"
+                                                class="btn btn-warning btn-rounded btn-fw right-align-button register_btn">
+                                            <i class="mdi mdi-checkbox-marked-circle mr-1"></i>Save
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 grid-margin">
+                    <div class="card card-box">
+                        <div class="card-body">
+                            <!-- <h4 class="card-title">Horizontal Form</h4> -->
+                            <!-- <p class="card-description"> -->
+                            <!-- Horizontal form layout -->
+                            <!-- </p> -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="table-responsive">
+                                        <table id="order-listing" class="table table_test">
+                                            <thead>
+                                            <tr>
+
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Amount</th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+
+        <!-- partial -->
+        <!--        </div>-->
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="{{ url_for('static', filename='template/vendors/js/vendor.bundle.base.js')}}"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="{{ url_for('static', filename='template/vendors/typeahead.js/typeahead.bundle.min.js')}}"></script>
+<script src="{{ url_for('static', filename='template/vendors/select2/select2.min.js')}}"></script>
+<script src="{{ url_for('static', filename='template/vendors/moment/moment.min.js')}}"></script>
+<script src="{{ url_for('static', filename='template/vendors/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.js')}}"></script>
+<script src="{{ url_for('static', filename='template/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="{{ url_for('static', filename='template/js/off-canvas.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/hoverable-collapse.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/template.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/settings.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/todolist.js')}}"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="{{ url_for('static', filename='template/js/file-upload.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/typeahead.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/select2.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/formpickers.js')}}"></script>
+<script src="{{ url_for('static', filename='template/vendors/js/vendor.bundle.base.js')}}"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<script src="{{ url_for('static', filename='template/vendors/datatables.net/jquery.dataTables.js')}}"></script>
+<script src="{{ url_for('static', filename='template/vendors/datatables.net-bs4/dataTables.bootstrap4.js')}}"></script>
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script src="{{ url_for('static', filename='template/js/off-canvas.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/hoverable-collapse.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/template.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/settings.js')}}"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="{{ url_for('static', filename='template/js/data-table.js')}}"></script>
+
+<!-- End custom js for this page-->
+</body>
+
+<script>
+$(document).ready(function(){
+    $(".register_btn").click(function(){
+        var after_apply=$('.total_amount').val()-$('.base_amount').val();
+        if (after_apply < 0){
+            alert("Amount should be less");
+        }
+          else{
+          if (confirm("Press OK to Add New Loan")){
+              $( ".register_btn" ).prop( "disabled", true );
+                var id = document.getElementById('id').value;
+                var name = document.getElementById('name').value;
+                var alias = document.getElementById('alias').value;
+                var address = document.getElementById('address').value;
+                var city = document.getElementById('city').value;
+                var phone = document.getElementById('phone').value;
+                var phone_2 = document.getElementById('phone_2').value;
+
+                var loan_type = document.getElementById('loan_type').value;
+                var guarantor_1_phone = document.getElementById('guarantor_1_phone').value;
+                var guarantor_1_name = document.getElementById('guarantor_1_name').value;
+                var guarantor_1_address = document.getElementById('guarantor_1_address').value;
+                var remark = document.getElementById('remark').value;
+                var base_amount = document.getElementById('base_amount').value;
+                var interest = document.getElementById('interest').value;
+
+                var noi = document.getElementById('noi').value;
+                var startdate = document.getElementById('startdate').value;
+                var period = document.getElementById('period').value;
+                var paid_amount = document.getElementById('paid_amount').value;
+                var guarantor_2_name = document.getElementById('guarantor_2_name').value;
+                var guarantor_2_address = document.getElementById('guarantor_2_address').value;
+                var guarantor_2_phone = document.getElementById('guarantor_2_phone').value;
+
+                $.post('/api/hafta/new_hafta_entry', {'id': id, 'name': name, 'alias': alias, 'address': address, 'phone': phone,
+                                                    'phone_2': phone_2, 'city': city, 'loan_type': loan_type, 'guarantor_1_phone': guarantor_1_phone,
+                                                    'guarantor_1_name': guarantor_1_name, 'guarantor_1_address': guarantor_1_address,
+                                                    'remark': remark, 'base_amount': base_amount, 'interest': interest, 'noi': noi, 'startdate': startdate,
+                                                    'period': period, 'paid_amount': paid_amount, 'guarantor_2_name': guarantor_2_name, 'guarantor_2_address': guarantor_2_address,
+                                                    'guarantor_2_phone': guarantor_2_phone},
+                        function(returnedData){
+                        console.log(returnedData);
+                            if (returnedData.code == 200){
+                            alert("Entry Added")
+                            location.reload();
+    <!--                            $('.bb').fadeToggle(200);-->
+    <!--                            $('.message').toggleClass('comein');-->
+    <!--                            $('.check').toggleClass('scaledown');-->
+    <!--                            $('.register-form').hide();-->
+                            $( ".register_btn" ).prop( "disabled", false );
+
+
+                            }
+
+                    }).fail(function(){
+                          console.log("error");
+                    });
+                    }
+            }
+  });
+
+
+
+
+
+    $(".count").click(function(){
+        var loan_type = document.getElementById('loan_type').value;
+        var interest = parseFloat(document.getElementById('interest').value);
+        var base_amount = parseFloat(document.getElementById('base_amount').value);
+        var startdate = document.getElementById('startdate').value;
+        var noi = parseFloat(document.getElementById('noi').value);
+        tableBody = $(".table_test tbody");
+        tableBody.empty();
+        if(loan_type == 'flat'){
+
+        var i;
+        var startdate = new Date(startdate);
+            for(i=0; i<noi; i++){
+
+                var date = startdate;
+                let year = date.getFullYear();
+                let month = (1 + date.getMonth()).toString().padStart(2, '0');
+                let day = date.getDate().toString().padStart(2, '0');
+
+                date = day + '/' + month + '/' + year;
+                markup = "<tr><td style='text-align: center;'><span>"+date+"</span></td><td style='text-align: center;'><span>"+interest+"</span></td></tr>";
+                tableBody.append(markup);
+                startdate.setMonth( startdate.getMonth() + 1);
+            }
+            var date = startdate;
+            let year = date.getFullYear();
+            let month = (1 + date.getMonth()).toString().padStart(2, '0');
+            let day = date.getDate().toString().padStart(2, '0');
+
+            date = day + '/' + month + '/' + year;
+            markup = "<tr><td style='text-align: center;'><span>"+date+"</span></td><td style='text-align: center;'><span>"+base_amount+"</span></td></tr>";
+            tableBody.append(markup);
+        }else{
+            var i;
+            var startdate = new Date(startdate);
+            var emi_amount = (base_amount + interest);
+            emi_amount = emi_amount / noi;
+            for(i=0; i<noi; i++){
+                startdate.setMonth( startdate.getMonth() + 1);
+                var date = startdate;
+                let year = date.getFullYear();
+                let month = (1 + date.getMonth()).toString().padStart(2, '0');
+                let day = date.getDate().toString().padStart(2, '0');
+
+                date = day + '/' + month + '/' + year;
+                markup = "<tr><td style='text-align: center;'><span>"+date+"</span></td><td style='text-align: center;'><span>"+emi_amount+"</span></td></tr>";
+                tableBody.append(markup);
+
+            }
+
+        }
+  });
+
+  $("#ok").click(function(){
+    $('.register-form').show();
+    $('.bb').hide();
+    $('.message').hide();
+    $('.check').hide();
+    location.reload();
+  });
+
+  });
+
+
+
+
+
+
+
+
+
+
+
+</script>
+<script>
+function validate() {
+  var after_apply=$('.total_amount').val()-$('.base_amount').val();
+  if (after_apply < 0){
+    alert("Amount should be less");
+  }
+}
+
+function hide_show_paid_amount() {
+  var x = document.getElementById("loan_type").value;
+  if(x == 'flat'){
+  $('.paid_amount_class').show()
+    $('#fa_paid_amount').show()
+    $("#paid_amount").show();
+  }
+  else{
+  $('.paid_amount_class').hide()
+    $('fa_paid_amount').hide()
+    $("#paid_amount").hide();
+  }
+}
+
+
+
+
+
+
+
+
+
+</script>
+
+<!-- Mirrored from www.bootstrapdash.com/demo/silica/template/demo/vertical-default-dark/pages/forms/basic_elements.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 13 Jul 2021 21:03:13 GMT -->
+</html>

@@ -1,0 +1,193 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ url_for('static', filename='assets/img/apple-icon.png')}}" />
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/img/favicon.png')}}" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>BlackQR</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+    <link href="{{ url_for('static', filename='assets/css/demo.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='assets/css/bootstrap.min.css')}}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='assets/css/material-dashboard.css')}}" rel="stylesheet" />
+<!--    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='asserts/css/bootstrap.min.css') }}">-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/web-fonts-with-css/css/fontawesome-all.css')}}" >
+
+    <script src="{{ url_for('static', filename='assets/js/jquery-3.5.1.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/dataTables.bootstrap.min.js')}}"></script>
+
+
+    <script src="{{ url_for('static', filename='assets/js/angular179.js')}}"></script>
+    <link href="{{ url_for('static', filename='assets/css/jquery-ui.css')}}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='assets/css/style.css')}}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='assets/css/bootstrap.min.css')}}" />
+
+    <style>
+
+        .selected {
+            color: red;
+            background-color: white;
+        }
+        .display-table {
+            font-weight: 500;
+              font-size: 17px;
+              font-family: "Verdana";
+        }
+
+
+    </style>
+
+</head>
+<script>
+$(document).ready(function(){
+    $(".new_loan").click(function(){
+    if (confirm("Press OK to New Loan")){
+        $.post('/api/test', {'url': 'http://127.0.0.1:5000/api/hafta/current_user_hafta_entry_dialog',
+                                        'user_id': $(this).attr('user_id')},
+                function(returnedData){
+                    var w = window.open('about:blank');
+                    w.document.open();
+                    w.document.write(returnedData);
+                    w.document.close();
+            }).fail(function(){
+                  console.log("error");
+            });
+
+    }
+  });
+  $(".extend_hafta").click(function(){
+    if (confirm("Press OK to Extend hafta")){
+        var amount = document.getElementById("extend_amount").value;
+        var months = document.getElementById("extend_month").value;
+        var loan_id = document.getElementById("extend_loan_id").value;
+        $.post('/api/test', {'url': 'http://127.0.0.1:5000/api/hafta/extend_hafta', 'user_id': $(this).attr('user_id'),
+                                'loan_id': loan_id, 'amount': amount, 'months': months},
+                function(returnedData){
+                    var w = window.open('about:blank');
+                    w.document.open();
+                    w.document.write(returnedData);
+                    w.document.close();
+            }).fail(function(){
+                  console.log("error");
+            });
+
+    }
+  });
+});
+</script>
+<div class="container">
+    <div class="row"><h2>Extend Hafta or Add new Loan</h2></div>
+
+    <div class="row">
+        {% if data.data|length > 0 %}
+        <div class="col-md-4"><h4>Name: {{data.data.0.user_name if 'user_name' in data.data.0.keys()}}</h4></div>
+        <div class="col-md-3"><h4>Phone: {{data.data.0.user_phone}}</h4></div>
+        <div class="col-md-3"><h4>Address: {{data.data.0.user_address}}</h4></div>
+        <div class="col-md-2"><h4>City: {{data.data.0.user_city}}</h4></div>
+        {% endif %}
+    </div><hr>
+    <div class="row">
+        {% if data.data|length > 0 %}
+        <div class="col-md-4"><h4>Loan ID: {{data.data.0.loan_id}}</h4></div>
+        <div class="col-md-4"><h4>Amount: {{data.data.0.base_amount if 'base_amount' in data.data.0.keys()}}</h4></div>
+        <div class="col-md-4"><h4>Loan Type: {{data.data.0.loan_type}}</h4></div>
+        {% endif %}
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-3">Hafta Amount<input type="text" value="{{data.data[0].emi_amount}}" placeholder="Emi Amount" id="extend_amount"></div>
+            <div class="col-md-3">No Of Months<input type="text" value="0" placeholder="Extend Months" id="extend_month"></div>
+            <div class="col-md-3">
+                Loan Id<br>
+              <select id="extend_loan_id" name=loan_id_extend>
+                {% for d in data.loan_id_list %}
+                  <option value="{{d}}">{{d}}</option>
+                {% endfor %}
+            </select>
+            </div>
+
+            <div class="col-md-3"><input type="button" class="extend_hafta btn"  style="background-color: #008fe4;" value="Extend Hafta" user_id="{{data.user_id}}"  {{"disable" if data.data[0].loan_type != "flat"}}></div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-5 pending_amount_text" style="color: #16abe3; font-size: 20px;">
+            General Amount : <b>{{data.total_pending_amount}}</b>
+        </div>
+        <div class="col-md-5 due_amount_text" style="color: red; font-size: 20px;">
+            Due Amount : <b>{{data.total_due_amount}}</b>
+        </div>
+    </div>
+    <hr>
+
+
+</div>
+<div style="padding: 50px;">
+<table id="example" class="table table-bordered display-table" style="width:100%; padding-top: 50px;">
+        <thead>
+            <tr style="background-color:black; color:white;">
+                <th>Installment No</th>
+                <th>EMI Amount</th>
+                <th>Hafta Date</th>
+                <th>Paid Date</th>
+                <th>Paid Amount</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for d in data.data %}
+            <tr>
+                <td>{{d.no_of_installment}}</td>
+                <td>{{d.emi_amount}}</td>
+                <td>{{'' if 'date_to_pay' not in d.keys() else d.date_to_pay.strftime("%d/%m/%Y") if d.date_to_pay != None else ''}}</td>
+                <td><input type="text" id="paid_date_{{d.loan_id}}_{{d.no_of_installment}}" value="{{'' if d.tx_status in [0, None] else d.paid_date}}" readonly></td>
+                <td>{{d.paid_amount if d.tx_status not in [0, None] else ""}}</td>
+
+                <td style="color:{{'green' if d.tx_status == 1 else 'red' if d.tx_status in [0, None] and d.date_to_pay < data.date_today else 'black'}}">{{"Pending" if d.tx_status in [0, None] else "Paid"}}</td>
+<!--                <td>-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-md-4">-->
+<!--                            <input type="button" class="extend btn btn-primary" value="Extend" user_id="{{d.user_id}}"-->
+<!--                                   loan_id="{{d.loan_id}}" {{"disabled" if d.tx_status == 1 or d.loan_type != "flat"}}>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </td>-->
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+
+    </div>
+<script>
+$(document).ready(function() {
+    $('#example').DataTable();
+
+   $(".display-table tr").click(function(){
+   $(this).addClass('selected').siblings().removeClass('selected');
+   var value=$(this).find('td:first').html();
+
+   });
+
+
+} );
+
+</script>
+<script>
+    function getDate(){
+    var today = new Date();
+
+document.getElementById("date").value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+}
+</script>
+<link href="{{ url_for('static', filename='assets/css/jquery-ui.css')}}" rel="stylesheet" />
+<link href="{{ url_for('static', filename='assets/css/style.css')}}" rel="stylesheet" />
+<link href="{{ url_for('static', filename='assets/css/bootstrap.min.css')}}" />
+<script src="{{ url_for('static', filename='assets/js/jquery-3.5.1.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/dataTables.bootstrap.min.js')}}"></script>
+
+</html>

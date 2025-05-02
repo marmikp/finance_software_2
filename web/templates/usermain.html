@@ -1,0 +1,626 @@
+<script src="{{ url_for('static', filename='assets/js/jquery.min.js')}}"></script>
+<!--<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">-->
+<link href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}" rel="stylesheet" id="bootstrap-css"/>
+<link href="{{ url_for('static', filename='assets/css/font-awesome2.min.css') }}" rel="stylesheet"/>
+<link href="{{ url_for('static', filename='assets/css/all.css') }}" rel="stylesheet"/>
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+<!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"-->
+<!--      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">-->
+<script src="{{ url_for('static', filename='assets/js/bootstrap.min.js')}}"></script>
+<!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
+<!--<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+<script src="{{ url_for('static', filename='assets/js/jquery.min.js')}}"></script>
+<!------ Include the above in your HEAD tag ---------->
+<style>
+  .register{
+<!--    background: -webkit-linear-gradient(left, #3931af, #00c6ff);-->
+    margin-top: 3%;
+
+}
+.register-left{
+    text-align: center;
+    color: #fff;
+    margin-top: 4%;
+}
+.register-left input{
+    border: none;
+    border-radius: 1.5rem;
+    padding: 2%;
+    width: 60%;
+    background: #f8f9fa;
+    font-weight: bold;
+    color: #383d41;
+    margin-top: 30%;
+    margin-bottom: 3%;
+    cursor: pointer;
+}
+.register-right{
+    background: #f8f9fa;
+    border-top-left-radius: 10% 50%;
+    border-bottom-left-radius: 10% 50%;
+}
+.register-left img{
+    margin-top: 15%;
+    margin-bottom: 5%;
+    width: 25%;
+    -webkit-animation: mover 2s infinite  alternate;
+    animation: mover 1s infinite  alternate;
+}
+@-webkit-keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+}
+@keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+}
+.register-left p{
+    font-weight: lighter;
+    padding: 12%;
+    margin-top: -9%;
+}
+.register .register-form{
+    padding: 10%;
+    margin-top: 10%;
+}
+.btnRegister{
+    float: right;
+    margin-top: 10%;
+    border: none;
+    border-radius: 1.5rem;
+    padding: 2%;
+    background: #0062cc;
+    color: #fff;
+    font-weight: 600;
+    width: 50%;
+    cursor: pointer;
+}
+.register .nav-tabs{
+    margin-top: 3%;
+    border: none;
+    border-radius: 1.5rem;
+    width: 28%;
+    float: right;
+}
+.register .nav-tabs .nav-link{
+<!--    padding: 2%;-->
+    height: 34px;
+    font-weight: 600;
+    color: #fff;
+    border-top-right-radius: 1.5rem;
+    border-bottom-right-radius: 1.5rem;
+}
+.register .nav-tabs .nav-link:hover{
+    border: none;
+}
+.register .nav-tabs .nav-link.active{
+    width: 100px;
+    color: #0062cc;
+    border: 2px solid #0062cc;
+    border-top-left-radius: 1.5rem;
+    border-bottom-left-radius: 1.5rem;
+}
+.register-heading{
+    text-align: center;
+    margin-top: 8%;
+    margin-bottom: -15%;
+    color: #495057;
+}
+
+.input-container {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.icon {
+  padding: 10px;
+  background: dodgerblue;
+  color: white;
+  min-width: 50px;
+  text-align: center;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  outline: none;
+}
+
+.input-field:focus {
+  border: 2px solid dodgerblue;
+}
+
+/* Set a style for the submit button */
+.btn {
+  background-color: dodgerblue;
+  color: white;
+  padding: 15px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.btn:hover {
+  opacity: 1;
+}
+
+
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400);
+body, html {
+  height: 100%;
+  font-size: 20px;
+  font-family: Source Sans Pro;
+}
+
+.b, .bb {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url("http://i.imgur.com/kje4L5j.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+
+.bb {
+  background: url("http://i.imgur.com/bDBs0et.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  display: none;
+}
+
+#go {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  color: white;
+  border: 0;
+  background: #71c341;
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: background 0.2s ease;
+  outline: none;
+}
+#go:hover {
+  background: #8ecf68;
+}
+#go:active {
+  background: #5a9f32;
+}
+
+.message {
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  width: 300px;
+  background: white;
+  border-radius: 8px;
+  padding: 30px;
+  text-align: center;
+  font-weight: 300;
+  color: #2c2928;
+  opacity: 0;
+  transition: top 0.3s cubic-bezier(0.31, 0.25, 0.5, 1.5), opacity 0.2s ease-in-out;
+}
+.message .check {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(4);
+  width: 120px;
+  height: 110px;
+  background: #71c341;
+  color: white;
+  font-size: 3.8rem;
+  padding-top: 10px;
+  border-radius: 50%;
+  opacity: 0;
+  transition: transform 0.2s 0.25s cubic-bezier(0.31, 0.25, 0.5, 1.5), opacity 0.1s 0.25s ease-in-out;
+}
+.message .scaledown {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+.message p {
+  font-size: 1.1rem;
+  margin: 25px 0px;
+  padding: 0;
+}
+.message p:nth-child(2) {
+  font-size: 2.3rem;
+  margin: 40px 0px 0px 0px;
+}
+.message #ok {
+  position: relative;
+  color: white;
+  border: 0;
+  background: #71c341;
+  width: 100%;
+  height: 50px;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  transition: background 0.2s ease;
+  outline: none;
+}
+.message #ok:hover {
+  background: #8ecf68;
+}
+.message #ok:active {
+  background: #5a9f32;
+}
+
+.comein {
+  top: 150px;
+  opacity: 1;
+}
+.tab-pane {
+    opacity: 1;
+}
+.form-control{
+    font-size: 20px;
+}
+
+
+
+
+
+</style>
+<div class="container register">
+    <div class="row">
+        <!--        <div class="col-md-3 register-left">-->
+        <!--            <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>-->
+        <!--            <h3>Welcome</h3>-->
+        <!--            <p></p>-->
+
+        <!--        </div>-->
+        <div class="col-md-9 register-right">
+
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <h3 class="register-heading">Add Customer</h3>
+
+<!--                    <div class='b'></div>-->
+<!--                    <div class='bb'></div>-->
+
+                    <div class='message'>
+                        <div class='check'>
+                            &#10004;
+                        </div>
+                        <p>
+                            Success
+                        </p>
+                        <p>
+                            Customer ADD Successfully!
+                        </p>
+                        <button id='ok'>
+                            OK
+                        </button>
+                    </div>
+
+                    <!--                                <form action="/api/hafta/new_hafta_entry" method=POST>-->
+                    <input type="hidden" class="form-control" name="id" value="{{data.max_id}}" id="id"/>
+                    <div class="row register-form">
+
+                        <div class="col-md-6">
+                            <div class="form-group input-container">
+                                <input type="text" class="form-control" name="loan_id" value="{{data.max_id}}"
+                                       id="loan_id" disabled/>
+
+                            </div>
+                            <div class="form-group input-container">
+                                <i class="fa fa-user icon"></i>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Name"
+                                       value="{{data.user_name if 'user_name' in data.keys() else ''}}"/>
+
+                            </div>
+                            <div class="form-group input-container">
+                                <i class="fas fa-pencil-alt icon"></i>
+
+                                <textarea class="form-control" name="address" id="address" placeholder="Address"
+                                          id="exampleFormControlTextarea4" rows="1" cols="88">{{data.user_address if 'user_address' in data.keys() else ''}}</textarea>
+                            </div>
+                            <div class="form-group input-container">
+
+                                <i class="fa fa-phone icon"></i>
+                                <input class="form-control" type="text" id="phone" placeholder="Phone-1" name="phone"
+                                       value="{{data.user_phone if 'user_phone' in data.keys() else ''}}">
+                            </div>
+                            <div class="form-group input-container">
+
+                                <i class="fa fa-phone icon"></i>
+                                <input class="form-control" type="text" id="phone_2" placeholder="Phone-2"
+                                       name="phone_2"
+                                       value="{{data.user_phone_2 if 'user_phone_2' in data.keys() else ''}}">
+                            </div>
+                            <div class="form-group input-container">
+                                <i class="fas fa-city icon"></i>
+                                <input class="form-control" type="text" id="city" placeholder="City" name="city"
+                                       value="{{data.user_city if 'user_city' in data.keys() else ''}}">
+                            </div>
+
+
+                            <div class="form-group input-container">
+                                <i class="fa fa-user icon"></i>
+                                <input type="text" class="form-control" id="guarantor_1_name" name="guarantor_1_name"
+                                       placeholder="Guarantor 1 Name" value=""/>
+
+                            </div>
+
+                            <div class="form-group input-container">
+
+                                <i class="fa fa-phone icon"></i>
+                                <input class="form-control" type="text" id="guarantor_1_phone"
+                                       placeholder="Guarantor 1 Phone *" name="guarantor_1_phone" value="">
+                            </div>
+
+                            <div class="form-group input-container">
+                                <i class="fas fa-pencil-alt icon"></i>
+                                <textarea class="form-control" id="guarantor_1_address" name="guarantor_1_address"
+                                          placeholder="Guarantor 1 Address" id="exampleFormControlTextarea4" rows="1"
+                                          cols="88"></textarea>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group input-container">
+                                <i class="fa fa-key icon"></i>
+                                <select class="input-field" id="loan_type" name="loan_type"
+                                        onchange="hide_show_paid_amount()">
+                                    <option value="flat">Flat Loan</option>
+                                    <option value="hafta">Hafta Loan</option>
+                                </select>
+                            </div>
+                            <div class="form-group input-container">
+                                <i class="fa fa-money icon"></i>
+                                <input class="form-control base_amount" type="text" id="base_amount"
+                                       placeholder="Loan Amount" name="base_amount" value="" onkeyup="validate()">
+                                <input class="form-control total_amount" type="hidden" id="total_amount"
+                                       placeholder="BaseAmount *" name="base_amount" value="{{data.total_amount}}">
+                            </div>
+
+
+                            <div class="form-group input-container">
+                                <i class="fa fa-money icon"></i>
+                                <input class="form-control" type="text" id="noi" placeholder="Loan EMI" name="noi"
+                                       value="">
+                            </div>
+
+                            <div class="form-group input-container">
+                                <i class="fa fa-money icon"></i>
+                                <input class="form-control" type="text" id="interest" placeholder="Loan Int."
+                                       name="interest" value="">
+                            </div>
+
+                            <div class="form-group input-container">
+                                <i class="fa fa-calendar icon"></i>
+                                <input class="form-control" type="date" id="startdate" placeholder="Date *"
+                                       name="startdate" value="{{data.today}}">
+                            </div>
+
+
+                            <div class="form-group input-container paid_amount_class">
+
+                                <i class="fa fa-phone icon" id="fa_paid_amount"></i>
+                                <input class="input-field" type="text" id="paid_amount" placeholder="Flat 1st EMI"
+                                       name="paid_amount" value="">
+                            </div>
+
+                            <div class="form-group input-container">
+                                <i class="fa fa-user icon"></i>
+                                <input type="text" class="form-control" id="guarantor_2_name" name="guarantor_2_name"
+                                       placeholder="Guarantor 2 Name" value=""/>
+
+                            </div>
+
+
+                            <div class="form-group input-container">
+
+                                <i class="fa fa-phone icon"></i>
+                                <input class="form-control" type="text" id="guarantor_2_phone"
+                                       placeholder="Guarantor 2 Phone" name="guarantor_2_phone" value="">
+                            </div>
+
+                            <div class="form-group input-container">
+                                <i class="fas fa-pencil-alt icon"></i>
+                                <textarea class="form-control" name="guarantor_2_address" id="guarantor_2_address"
+                                          placeholder="Guarantor 2 Address" id="exampleFormControlTextarea4" rows="1"
+                                          cols="88"></textarea>
+                            </div>
+
+
+                            <input type="submit" class="btnRegister register_btn" value="ADD"/>
+                            <input type="submit" class="count btnRegister" value="Count"/>
+                        </div>
+                    </div>
+                    <!--                                </form>-->
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3 register-left">
+            <table class="table_test table table-bordered">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>EMI</th>
+                </tr>
+
+                </thead>
+                <tbody>
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+$(document).ready(function(){
+    $(".register_btn").click(function(){
+        var after_apply=$('.total_amount').val()-$('.base_amount').val();
+        if (after_apply < 0){
+            alert("Amount should be less");
+        }
+          else{
+            var id = document.getElementById('id').value;
+            var name = document.getElementById('name').value;
+            var alias = document.getElementById('alias').value;
+            var address = document.getElementById('address').value;
+            var city = document.getElementById('city').value;
+            var phone = document.getElementById('phone').value;
+            var phone_2 = document.getElementById('phone_2').value;
+
+            var loan_type = document.getElementById('loan_type').value;
+            var guarantor_1_phone = document.getElementById('guarantor_1_phone').value;
+            var guarantor_1_name = document.getElementById('guarantor_1_name').value;
+            var guarantor_1_address = document.getElementById('guarantor_1_address').value;
+            var remark = document.getElementById('remark').value;
+            var base_amount = document.getElementById('base_amount').value;
+            var interest = document.getElementById('interest').value;
+
+            var noi = document.getElementById('noi').value;
+            var startdate = document.getElementById('startdate').value;
+            var period = document.getElementById('period').value;
+            var paid_amount = document.getElementById('paid_amount').value;
+            var guarantor_2_name = document.getElementById('guarantor_2_name').value;
+            var guarantor_2_address = document.getElementById('guarantor_2_address').value;
+            var guarantor_2_phone = document.getElementById('guarantor_2_phone').value;
+
+
+            $.post('/api/hafta/new_hafta_entry', {'id': id, 'name': name, 'alias': alias, 'address': address, 'phone': phone,
+                                                'phone_2': phone_2, 'city': city, 'loan_type': loan_type, 'guarantor_1_phone': guarantor_1_phone,
+                                                'guarantor_1_name': guarantor_1_name, 'guarantor_1_address': guarantor_1_address,
+                                                'remark': remark, 'base_amount': base_amount, 'interest': interest, 'noi': noi, 'startdate': startdate,
+                                                'period': period, 'paid_amount': paid_amount, 'guarantor_2_name': guarantor_2_name, 'guarantor_2_address': guarantor_2_address,
+                                                'guarantor_2_phone': guarantor_2_phone},
+                    function(returnedData){
+                    console.log(returnedData);
+                        if (returnedData.code == 200){
+                            $('.bb').fadeToggle(200);
+                            $('.message').toggleClass('comein');
+                            $('.check').toggleClass('scaledown');
+                            $('.register-form').hide();
+
+
+                        }
+
+                }).fail(function(){
+                      console.log("error");
+                });
+            }
+  });
+
+
+
+
+
+    $(".count").click(function(){
+        var loan_type = document.getElementById('loan_type').value;
+        var interest = parseFloat(document.getElementById('interest').value);
+        var base_amount = parseFloat(document.getElementById('base_amount').value);
+        var startdate = document.getElementById('startdate').value;
+        var noi = parseFloat(document.getElementById('noi').value);
+        tableBody = $(".table_test tbody");
+        tableBody.empty();
+        if(loan_type == 'flat'){
+
+        var i;
+        var startdate = new Date(startdate);
+            for(i=0; i<noi; i++){
+
+                var date = startdate;
+                let year = date.getFullYear();
+                let month = (1 + date.getMonth()).toString().padStart(2, '0');
+                let day = date.getDate().toString().padStart(2, '0');
+
+                date = day + '/' + month + '/' + year;
+                markup = "<tr><td>"+date+"</td><td>"+interest+"</td></tr>";
+                tableBody.append(markup);
+                startdate.setMonth( startdate.getMonth() + 1);
+            }
+            var date = startdate;
+            let year = date.getFullYear();
+            let month = (1 + date.getMonth()).toString().padStart(2, '0');
+            let day = date.getDate().toString().padStart(2, '0');
+
+            date = day + '/' + month + '/' + year;
+            markup = "<tr><td>"+date+"</td><td>"+base_amount+"</td></tr>";
+            tableBody.append(markup);
+        }else{
+            var i;
+            var startdate = new Date(startdate);
+            var emi_amount = (base_amount + interest);
+            emi_amount = emi_amount / noi;
+            for(i=0; i<noi; i++){
+                startdate.setMonth( startdate.getMonth() + 1);
+                var date = startdate;
+                let year = date.getFullYear();
+                let month = (1 + date.getMonth()).toString().padStart(2, '0');
+                let day = date.getDate().toString().padStart(2, '0');
+
+                date = day + '/' + month + '/' + year;
+                markup = "<tr><td>"+date+"</td><td>"+emi_amount+"</td></tr>";
+                tableBody.append(markup);
+
+            }
+
+        }
+  });
+
+  $("#ok").click(function(){
+    $('.register-form').show();
+    $('.bb').hide();
+    $('.message').hide();
+    $('.check').hide();
+    location.reload();
+  });
+
+  });
+
+
+
+
+
+
+
+</script>
+<script>
+function validate() {
+  var after_apply=$('.total_amount').val()-$('.base_amount').val();
+  if (after_apply < 0){
+    alert("Amount should be less");
+  }
+}
+
+function hide_show_paid_amount() {
+  var x = document.getElementById("loan_type").value;
+  if(x == 'flat'){
+  $('.paid_amount_class').show()
+    $('#fa_paid_amount').show()
+    $("#paid_amount").show();
+  }
+  else{
+  $('.paid_amount_class').hide()
+    $('fa_paid_amount').hide()
+    $("#paid_amount").hide();
+  }
+}
+
+
+
+
+
+</script>

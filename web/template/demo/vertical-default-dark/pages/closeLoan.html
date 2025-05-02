@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Day Collection</title>
+    <script src="{{ url_for('static', filename='assets/js/jquery-3.5.1.js')}}"></script>
+    <link href="{{ url_for('static', filename='assets/css/jquery-ui.css')}}" rel="stylesheet"/>
+
+    <!-- plugins:css -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='template/vendors/mdi/css/materialdesignicons.min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='template/vendors/css/vendor.bundle.base.css')}}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='template/vendors/select2/select2.min.css')}}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='template/vendors/select2-bootstrap-theme/select2-bootstrap.min.css')}}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='template/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css')}}">
+    <!-- End plugin css for this page -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='template/css/fd-icons.css')}}">
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='template/css/vertical-layout-dark/style.css')}}">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='template/images/favicon.png')}}"/>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='template/vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='template/vendors/mdi/css/materialdesignicons.min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='template/vendors/css/vendor.bundle.base.css')}}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='template/vendors/select2/select2.min.css')}}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='template/vendors/select2-bootstrap-theme/select2-bootstrap.min.css')}}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='template/vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
+    <!-- End plugin css for this page -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='template/css/fd-icons.css')}}">
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='template/css/vertical-layout-dark/style.css')}}">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='template/images/favicon.png')}}"/>
+    <script src="{{ url_for('static', filename='assets/js/a076d05399.js')}}"></script>
+
+</head>
+<style>
+.btn:focus {
+  background: #0066ff;
+}
+.dataTables_filter, .dataTables_info { display: none; }
+</style>
+<script>
+$(document).ready(function(){
+  $(".close_loan").click(function(){
+    if (confirm("Press OK to Close Loan")){
+        var amount = document.getElementById("paid_amount_".concat($(this).attr('loan_id'))).value;
+        $.post('/api/hafta/close_loan', {'user_id': $(this).attr('user_id'),
+                                'loan_id': $(this).attr('loan_id'), 'amount': amount},
+                function(returnedData){
+                    alert("Loan Closed successfully");
+            }).fail(function(){
+                  console.log("error");
+            });
+            location.reload()
+        }
+  });
+});
+
+
+
+
+
+</script>
+
+<script>
+$(document).ready(function() {
+    $('#example').DataTable();
+
+   $(".display-table tr").click(function(){
+   $(this).addClass('selected').siblings().removeClass('selected');
+   var value=$(this).find('td:first').html();
+
+   });
+
+} );
+
+
+
+
+
+</script>
+<script>
+    function getDate(){
+    var today = new Date();
+
+document.getElementById("date").value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+}
+
+
+
+
+
+</script>
+<body>
+<div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    <!--         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">-->
+    <!--            <div class="navbar-brand-wrapper d-flex justify-content-center">-->
+    <!--               <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">-->
+    <!--                  <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">-->
+    <!--                  <span class="mdi mdi-menu"></span>-->
+    <!--                  </button>-->
+    <!--               </div>-->
+    <!--            </div>-->
+    <!--            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end navbar-title">-->
+    <!--               <ul class="navbar-nav mr-lg-2">-->
+    <!--                  <li class="nav-item d-none d-lg-block">-->
+    <!--                     <label class="col-form-label bold-label"> Party Information |  </label>-->
+    <!--                     <label class="col-form-label bold-label-green"> Thursday, June 02, 2021 </label>-->
+    <!--                  </li>-->
+    <!--               </ul>-->
+
+    <!--               <ul class="navbar-nav navbar-nav-right">-->
+    <!--               </ul>-->
+    <!--               <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">-->
+    <!--               <span class="mdi mdi-menu"></span>-->
+    <!--               </button>-->
+    <!--            </div>-->
+    <!--         </nav>-->
+
+    <!--         &lt;!&ndash; partial &ndash;&gt;-->
+    <!--         <div class="container-fluid page-body-wrapper">-->
+    <!--            &lt;!&ndash; partial:../../partials/_sidebar.html &ndash;&gt;-->
+    <!--            <nav class="sidebar sidebar-offcanvas" id="sidebar">-->
+    <!--               <ul class="nav">-->
+    <!--                  <li class="nav-item">-->
+    <!--                     <a class="nav-link btn btn-siderbar  btn-rounded btn-fw" href="dashboard1.html">-->
+    <!--                     <i class="fd-home"></i>-->
+    <!--                     <span class="menu-title">Home</span>-->
+    <!--                     </a>-->
+    <!--                  </li>-->
+    <!--                  <li class="nav-item">-->
+    <!--                     <a class="nav-link btn btn-siderbar  btn-rounded btn-fw" href="loanLists1.html">-->
+    <!--                     <i class="fd-loan-list"></i>-->
+    <!--                     <span class="menu-title">Loan List</span>-->
+    <!--                     </a>-->
+    <!--                  </li>-->
+    <!--                  <li class="nav-item">-->
+    <!--                     <a class="nav-link btn btn-siderbar  btn-rounded btn-fw" href="addCollections1.html">-->
+    <!--                     <i class="fd-add-collection"></i>-->
+    <!--                     <span class="menu-title">Day Collection</span>-->
+    <!--                     </a>-->
+    <!--                  </li>-->
+    <!--                  <li class="nav-item">-->
+    <!--                     <a class="nav-link btn btn-siderbar  btn-rounded btn-fw" href="AccountOnBoard1.html">-->
+    <!--                     <i class="fd-account"></i>-->
+    <!--                     <span class="menu-title">Account</span>-->
+    <!--                     </a>-->
+    <!--                  </li>-->
+    <!--                  <li class="nav-item">-->
+    <!--                     <a class="nav-link btn btn-siderbar  btn-rounded btn-fw" href="creditDebitAccount1.html">-->
+    <!--                     <i class="fd-credit-account"></i>-->
+    <!--                     <span class="menu-title">Cr-De. Acc.</span>-->
+    <!--                     </a>-->
+    <!--                  </li>-->
+    <!--                  <li class="nav-item">-->
+    <!--                     <a class="nav-link btn btn-siderbar  btn-rounded btn-fw" href="report1.html">-->
+    <!--                     <i class="fd-report"></i>-->
+    <!--                     <span class="menu-title">Report</span>-->
+    <!--                     </a>-->
+    <!--                  </li>-->
+    <!--                  <li class="nav-item">-->
+    <!--                     <a class="nav-link btn btn-siderbar  btn-rounded btn-fw" href="settings1.html">-->
+    <!--                     <i class="fd-settings"></i>-->
+    <!--                     <span class="menu-title">Settings</span>-->
+    <!--                     </a>-->
+    <!--                  </li>-->
+    <!--               </ul>-->
+    <!--            </nav>-->
+    <!-- partial -->
+    <!-- partial -->
+    <div class="main-panel" style="width: 100%">
+        <div class="content-wrapper">
+            {% set last = data|last if data|length > 0 else {} %}
+            <div class="page-title-box" style="background-color: #3c4650">
+                <!--<h2>Collection</h2> -->
+                <div class="row">
+                    <div class="col-md-3">
+                        <form action="/api/hafta/close_loan_dialog_t" method="post">
+                            <div class="row">
+
+                                <div class="col-md-4  ml-0 mb-3 mt-3 mr-0" style="color:#fff;">Loan Id :</div>
+                                <div class="col-md-4  ml-0 mb-3 mt-3 mr-0"><input style="max-width: 80px;" id="lid"
+                                                                                  value="{{data.0.transaction_id if data|length > 0}}"
+                                                                                  name="loan_id"></div>
+                                <div class="col-md-3  ml-0 mb-3 mt-3 mr-0">
+                                    <input type="submit" class="fetch" value="Fetch">
+                                </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <input type="text" class="ml-5 mb-3 mt-3" name="name" style="width: 100%"
+                           value="{{last.user_name}}" disabled>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="row" style="color: black;">
+
+            <div class="col-md-3" style="font-size: 20px;"><h4>Phone: {{last.user_phone}}</h4></div>
+            <div class="col-md-6" style="font-size: 20px;"><h4>Address: {{last.user_address}}</h4></div>
+            <div class="col-md-2" style="font-size: 20px;"><h4>City: {{last.user_city}}</h4></div>
+
+        </div>
+
+
+        <div class="card card-box" style="margin-top: 10px;">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table id="order-listing" class="table">
+                                <thead class="thead" style="background-color: #3c4650;">
+                                <tr>
+                                    <th>L.Id</th>
+                                    <th>Pending EMI</th>
+                                    <th>Status</th>
+                                    <th>Pending Rs</th>
+                                    <th>Guar 1 Name</th>
+                                    <th>Guar 1 Ph.</th>
+                                    <th>Guar 1 Add.</th>
+                                    <th>Guar 2 Name</th>
+                                    <th>Guar 2 Ph.</th>
+                                    <th>Guar 2 Add.</th>
+
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for d in data %}
+                                <tr>
+                                    <td><span>{{d.transaction_id}}</span></td>
+                                    <td><span>{{d.no_of_pending_installments}}</span></td>
+                                    <td><span>{{"Pending" if d.loan_status in [0, None] else "Done"}}</span></td>
+                                    <td><span><input type="text" id="paid_amount_{{d.transaction_id}}"
+                                                     value="{{d.pending_total_amount}}"></span></td>
+                                    <td><span>{{d.guarantor_1_name if d.guarantor_1_name != none else ''}}</span></td>
+                                    <td><span>{{d.guarantor_1_phone if d.guarantor_1_phone != none else ''}}</span></td>
+                                    <td><span>{{d.guarantor_1_address if d.guarantor_1_address != none else ''}}</span>
+                                    </td>
+                                    <td><span>{{d.guarantor_2_name if d.guarantor_2_name != none else ''}}</span></td>
+                                    <td><span>{{d.guarantor_2_phone if d.guarantor_2_phone != none else ''}}</span></td>
+                                    <td><span>{{d.guarantor_2_address if d.guarantor_2_address != none else ''}}</span>
+                                    </td>
+                                    <td><span>
+                                        <a class="close_loan add" title="Close" data-toggle="tooltip" user_id="{{d.id}}"
+                                           loan_id="{{d.transaction_id}}"><i class="fa fa-times"></i></a></span>
+
+
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- content-wrapper ends -->
+<!-- partial:../../partials/_footer.html -->
+<!-- partial -->
+<!-- main-panel ends -->
+<script src="{{ url_for('static', filename='template/vendors/js/vendor.bundle.base.js')}}"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="{{ url_for('static', filename='template/vendors/typeahead.js/typeahead.bundle.min.js')}}"></script>
+<script src="{{ url_for('static', filename='template/vendors/select2/select2.min.js')}}"></script>
+<script src="{{ url_for('static', filename='template/vendors/moment/moment.min.js')}}"></script>
+<script src="{{ url_for('static', filename='template/vendors/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.js')}}"></script>
+<script src="{{ url_for('static', filename='template/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="{{ url_for('static', filename='template/js/off-canvas.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/hoverable-collapse.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/template.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/settings.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/todolist.js')}}"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="{{ url_for('static', filename='template/js/file-upload.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/typeahead.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/select2.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/formpickers.js')}}"></script>
+<script src="{{ url_for('static', filename='template/vendors/js/vendor.bundle.base.js')}}"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<script src="{{ url_for('static', filename='template/vendors/datatables.net/jquery.dataTables.js')}}"></script>
+<script src="{{ url_for('static', filename='template/vendors/datatables.net-bs4/dataTables.bootstrap4.js')}}"></script>
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script src="{{ url_for('static', filename='template/js/off-canvas.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/hoverable-collapse.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/template.js')}}"></script>
+<script src="{{ url_for('static', filename='template/js/settings.js')}}"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="{{ url_for('static', filename='template/js/data-table.js')}}"></script>
+<!-- End custom js for this page-->
+</body>
+<!-- Mirrored from www.bootstrapdash.com/demo/silica/template/demo/vertical-default-dark/pages/forms/basic_elements.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 13 Jul 2021 21:03:13 GMT -->
+</html>
